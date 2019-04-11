@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>記憶遊戲</title>
+</head>
+
+<body>
+    <script>
+        var pai = [1, 1, 2, 2, 3, 3, 4, 4];
+        var flag = false;
+        var oneid = 0;
+        function fanpai(id) {
+            if (pai[id] == 0) {
+                return;
+            }
+            document.getElementById("img" + id).src = "image" + pai[id] + ".png";
+            if (flag) {//翻第2張
+                if (pai[id] == pai[oneid]) {
+                    pai[id] = 0;
+                    pai[oneid] = 0;
+                }
+                else {
+                    setTimeout("koupai(" + id + " , " + oneid + ")", 300);
+                }
+                oneid = 0;
+                flag = false;
+            }
+            else {//翻第1張
+                oneid = id;
+                flag = true;
+            }
+            checkSuccess();
+        }
+        //每次載頁面重新洗牌
+        function xipai() {
+            var a, b, temp;
+            for (i = 0; i < 8; i++) {
+                var a = Math.floor(Math.random() * 8);
+                var b = Math.floor(Math.random() * 8);
+                temp = pai[a];
+                pai[a] = pai[b];
+                pai[b] = temp;
+            }
+        }
+        //  第一次第二次不相同，扣住2張牌
+        function koupai(id, oneid) {
+            document.getElementById("img" + id).src = "image5.png";
+            document.getElementById("img" + oneid).src = "image5.png";
+        }
+        // 每次翻完2張相同，是否全部成功翻開
+        function checkSuccess() {
+            for (var i = 0; i < 8; i++) {
+                if (pai[i] != 0)
+                    return;
+            }
+            alert("pass");
+            location.reload();
+        }
+         xipai();
+    </script>
+    <div class="text-center">
+        <h1>翻牌</h1>
+    </div>
+
+    <br />
+    <table class="table table-bordered">
+        <tr>
+            <td><img src="image5.png" id="img0" onclick="fanpai(0)" /></td>
+            <td><img src="image5.png" id="img1" onclick="fanpai(1)" /></td>
+            <td><img src="image5.png" id="img2" onclick="fanpai(2)" /></td>
+            <td><img src="image5.png" id="img3" onclick="fanpai(3)" /></td>
+        </tr>
+        <tr>
+            <td><img src="image5.png" id="img4" onclick="fanpai(4)" /></td>
+            <td><img src="image5.png" id="img5" onclick="fanpai(5)" /></td>
+            <td><img src="image5.png" id="img6" onclick="fanpai(6)" /></td>
+            <td><img src="image5.png" id="img7" onclick="fanpai(7)" /></td>
+        </tr>
+    </table>
+</html>
+</body>
+
+</html>
